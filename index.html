@@ -1,11 +1,203 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Quiz de Química Orgânica</title>
+    
+    <!-- DESIGN DO SITE (CSS) -->
+    <style>
+        /* Configurações gerais da página */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Caixa principal do quiz */
+        .quiz-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .subtitulo {
+            color: #7f8c8d;
+            margin-bottom: 25px;
+        }
+
+        #pergunta {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #34495e;
+        }
+
+        /* Área dos botões de resposta */
+        .opcoes {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Estilo dos botões */
+        .opcao-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        /* Efeito ao passar o mouse e clicar */
+        .opcao-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .opcao-btn:active {
+            transform: translateY(0);
+        }
+
+        #reiniciar-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #reiniciar-btn:hover {
+            background-color: #27ae60;
+        }
+
+        /* Classe utilitária para esconder elementos */
+        .escondido {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-    
+
+    <!-- ESTRUTURA DO SITE (HTML) -->
+    <div class="quiz-container">
+        <h1>🧪 Quiz de Química Orgânica</h1>
+        <p class="subtitulo">Teste seus conhecimentos sobre os compostos de carbono!</p>
+        
+        <div id="quiz">
+            <!-- A pergunta será exibida aqui -->
+            <h2 id="pergunta">Carregando pergunta...</h2>
+            
+            <!-- As opções de resposta -->
+            <div class="opcoes">
+                <button class="opcao-btn" onclick="verificarResposta(0)"></button>
+                <button class="opcao-btn" onclick="verificarResposta(1)"></button>
+                <button class="opcao-btn" onclick="verificarResposta(2)"></button>
+                <button class="opcao-btn" onclick="verificarResposta(3)"></button>
+            </div>
+        </div>
+
+        <!-- Tela de resultado (escondida no início) -->
+        <div id="resultado" class="escondido">
+            <h2>Fim do Quiz! 🎉</h2>
+            <p id="pontuacao-texto"></p>
+            <button id="reiniciar-btn" onclick="reiniciarQuiz()">Tentar Novamente</button>
+        </div>
+    </div>
+
+    <!-- LÓGICA DO SITE (JAVASCRIPT) -->
+    <script>
+        // Lista de perguntas, opções e a resposta correta (índice começando em 0)
+        const perguntasQuiz = [
+            {
+                pergunta: "Qual é o elemento químico que serve de base para todos os compostos orgânicos?",
+                opcoes: ["Oxigênio", "Carbono", "Hidrogênio", "Nitrogênio"],
+                correta: 1 // Carbono é a segunda opção (índice 1)
+            },
+            {
+                pergunta: "Quantas ligações covalentes o átomo de carbono precisa fazer para ficar estável?",
+                opcoes: ["2 ligações", "3 ligações", "4 ligações", "5 ligações"],
+                correta: 2 // 4 ligações (índice 2)
+            },
+            {
+                pergunta: "Qual das alternativas apresenta apenas hidrocarbonetos?",
+                opcoes: ["Metano e Etano", "Água e Sal", "Glicose e Álcool", "Dióxido de Carbono"],
+                correta: 0 // Metano e Etano (índice 0)
+            }
+        ];
+
+        let perguntaAtualIndex = 0;
+        let pontuacao = 0;
+
+        // Função para exibir a pergunta atual na tela
+        function carregarPergunta() {
+            const dadosPergunta = perguntasQuiz[perguntaAtualIndex];
+            const elementoPergunta = document.getElementById("pergunta");
+            elementoPergunta.innerText = dadosPergunta.pergunta;
+
+            const botoesOpcoes = document.querySelectorAll(".opcao-btn");
+            botoesOpcoes.forEach((botao, index) => {
+                botao.innerText = dadosPergunta.opcoes[index];
+            });
+        }
+
+        // Função executada quando o usuário clica em uma resposta
+        function verificarResposta(opcaoSelecionada) {
+            const respostaCorreta = perguntasQuiz[perguntaAtualIndex].correta;
+
+            if (opcaoSelecionada === respostaCorreta) {
+                pontuacao++;
+            }
+
+            perguntaAtualIndex++;
+
+            // Verifica se ainda existem perguntas ou se o quiz acabou
+            if (perguntaAtualIndex < perguntasQuiz.length) {
+                carregarPergunta();
+            } else {
+                mostrarResultado();
+            }
+        }
+
+        // Mostra a tela final com a pontuação
+        function mostrarResultado() {
+            document.getElementById("quiz").classList.add("escondido");
+            document.getElementById("resultado").classList.remove("escondido");
+            
+            const textoPontuacao = document.getElementById("pontuacao-texto");
+            textoPontuacao.innerText = `Você acertou ${pontuacao} de ${perguntasQuiz.length} perguntas!`;
+        }
+
+        // Reseta as variáveis para começar de novo
+        function reiniciarQuiz() {
+            perguntaAtualIndex = 0;
+            pontuacao = 0;
+            document.getElementById("quiz").classList.remove("escondido");
+            document.getElementById("resultado").classList.add("escondido");
+            carregarPergunta();
+        }
+
+        // Inicia o quiz automaticamente assim que a página carrega
+        carregarPergunta();
+    </script>
 </body>
 </html>
