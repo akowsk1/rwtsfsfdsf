@@ -6,6 +6,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Blog</title>
         <style> 
+:root {
+    --cor-curtida: #33605a;
+}
+
+
 body{
     font-family: Georgia, serif;
     background-color: #FFF8FC;
@@ -38,6 +43,25 @@ section{
     border-radius: 10px;
     color: #5C2C4B;
 }
+
+button {
+    background-color: #ffeaf6;
+    color: #5c2c4b;
+    border: 1px solid #5c2c4b;
+    border-radius: 20px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    margin: 10px 0;
+}
+
+button.curtido {
+    background-color: var(--cor-curtida);
+    color: #ffffff;
+    border-color: var(--cor-curtida);
+}
+
 
 h1, h2, h3{
     color: #5C2C4B;
@@ -78,7 +102,7 @@ img{
             empoderamento, a nostalgia e a diversão. A principal característica da tendência é o uso dominante de várias tonalidades de 
             cor-de-rosa (especialmente o rosa-choque), além de roupas, acessórios e decorações extravagantes e lúdicas.⋆.ೃ࿔🌸*:･</p>
         </main>
-
+<button>👍<span>0</span></button>
 <section>
     <h2>🧸ྀི Outfits Barbiecore</h2>
 
@@ -96,9 +120,9 @@ img{
         </div>
 
         <img src="barbie outfit.jpg" alt="Look Barbiecore">
-        <img src="barbie outfit2.jpg" alt="Look Barbiecore 2"
-    
-    ></div>
+        <img src="barbie outfit2.jpg" alt="Look Barbiecore 2">
+</div>
+<button>👍<span>0</span></button>
 </section>
 
 <section>
@@ -118,9 +142,9 @@ img{
         </div>
 
         <img src="maquiagem bc2.jpg" alt="Maquiagem barbiecore 1">
-        <img src="maquiagem bc.jpg" alt="Maquiagem barbiecore 2"
-    
-    ></div>
+        <img src="maquiagem bc.jpg" alt="Maquiagem barbiecore 2">
+</div>
+<button>👍<span>0</span></button>
 </section>
 
 <section>
@@ -141,8 +165,9 @@ img{
         </div>
 
         <img src="barbiecore decor.jpg" alt="Decoração Barbiecore">
-        <img src="barbiecore quarto.jpg" alt="Quarto Barbiecore"
-></section>
+        <img src="barbiecore quarto.jpg" alt="Quarto Barbiecore">
+<button>👍<span>0</span></button>
+</section>
 
 <section>
     <h2>˚.🎀༘⋆ Estilo de Vida Barbiecore</h2>
@@ -157,6 +182,7 @@ img{
         maquiagem, moda e momentos para cuidar de si mesmo. O importante é expressar
         sua personalidade sem medo de usar muito rosa. ୭ ᵎᵎ 🧁
     </p>
+<button>👍<span>0</span></button>
 </section>
 
 <footer>
@@ -167,4 +193,24 @@ img{
        
        
 </body>
+
+  <script>
+
+    const botoes = document.querySelectorAll("button");
+    botoes.forEach(botao => {
+        botao.addEventListener("click", function() {
+            const contador = this.querySelector("span");
+            let valorAtual = Number(contador.textContent);
+
+            if (this.classList.contains("curtido")) {
+                this.classList.remove("curtido");
+                contador.textContent = valorAtual - 1;
+            } else {
+                this.classList.add("curtido");
+                contador.textContent = valorAtual + 1;
+            }
+        });
+    });
+</script>
+
 </html>
